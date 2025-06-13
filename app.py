@@ -4,8 +4,11 @@ from flask import Flask, request, jsonify, send_file
 from functools import wraps
 import paramiko
 from io import BytesIO
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+load_dotenv()
 
 API_TOKEN = os.getenv("API_TOKEN")
 
@@ -101,7 +104,7 @@ def download_file():
     finally:
         sftp.close()
         transport.close()
-
+    
     return send_file(BytesIO(data), download_name=os.path.basename(filename), as_attachment=True)
 
 @app.route("/upload", methods=["POST"])
@@ -129,4 +132,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=8000)
